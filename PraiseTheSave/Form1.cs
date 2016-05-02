@@ -101,10 +101,14 @@ namespace PraiseTheSave
         {
             string backupDir = PraiseTheSave.Properties.Settings.Default.SaveLocation;
             backupFolderLabel.Text = backupDir;
-            backupFolderSizeLabel.Text =
+            if (Directory.Exists(backupDir))
+            {
+                backupFolderSizeLabel.Text =
                 "Size of the backup folder is " +
                 (DirSize(new DirectoryInfo(backupDir)) / 1024.0 / 1024.0).ToString("0.00")
                 + "Mb";
+            }
+            
 
             saveAmountInput.Value = PraiseTheSave.Properties.Settings.Default.SaveAmount;
             saveIntervalInput.Value = PraiseTheSave.Properties.Settings.Default.SaveInterval;
@@ -175,6 +179,14 @@ namespace PraiseTheSave
             string ds1destination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds1\";
             string ds2destination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds2\";
             string ds3destination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds3\";
+
+
+            if (!Directory.Exists(PraiseTheSave.Properties.Settings.Default.SaveLocation))
+            {
+                Directory.CreateDirectory(PraiseTheSave.Properties.Settings.Default.SaveLocation);
+            }
+
+
 
 
             string ds1save = PraiseTheSave.Properties.Settings.Default.ds1location;
