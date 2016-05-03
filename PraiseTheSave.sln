@@ -15,6 +15,7 @@ Global
 		{889E2248-74DA-4DC4-B802-0D64E34F0748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{889E2248-74DA-4DC4-B802-0D64E34F0748}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{889E2248-74DA-4DC4-B802-0D64E34F0748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889E2248-74DA-4DC4-B802-0D64E34F0748}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

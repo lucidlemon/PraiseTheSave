@@ -68,6 +68,11 @@ namespace PraiseTheSave
             return dir.GetFiles().OrderByDescending(f => f.LastWriteTime).Last();
         }
 
+        public bool IsDirectoryEmpty(string path)
+        {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -195,7 +200,14 @@ namespace PraiseTheSave
                 if (!Directory.Exists(ds1destination))
                     Directory.CreateDirectory(ds1destination);
 
-                if (PraiseTheSave.Properties.Settings.Default.LastDS1Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1save)).FullName))
+                DateTime? lastDS1Change = PraiseTheSave.Properties.Settings.Default.LastDS1Change;
+                if (
+                    IsDirectoryEmpty(ds1destination)
+                    ||
+                    !lastDS1Change.HasValue
+                    ||
+                    PraiseTheSave.Properties.Settings.Default.LastDS1Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1save)).FullName)
+                    )
                 {
                     while (PraiseTheSave.Properties.Settings.Default.SaveAmount <= Directory.GetFiles(ds1destination).Length)
                     {
@@ -220,7 +232,14 @@ namespace PraiseTheSave
                 if (!Directory.Exists(ds2destination))
                     Directory.CreateDirectory(ds2destination);
 
-                if (PraiseTheSave.Properties.Settings.Default.LastDS2Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds2save)).FullName))
+                DateTime? lastDS2Change = PraiseTheSave.Properties.Settings.Default.LastDS2Change;
+                if (
+                    IsDirectoryEmpty(ds2destination)
+                    ||
+                    !lastDS2Change.HasValue
+                    ||
+                    PraiseTheSave.Properties.Settings.Default.LastDS2Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds2save)).FullName)
+                    )
                 {
 
                     while (PraiseTheSave.Properties.Settings.Default.SaveAmount <= Directory.GetFiles(ds2destination).Length)
@@ -246,7 +265,14 @@ namespace PraiseTheSave
                 if (!Directory.Exists(ds3destination))
                     Directory.CreateDirectory(ds3destination);
 
-                if (PraiseTheSave.Properties.Settings.Default.LastDS3Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds3save)).FullName))
+                DateTime? lastDS3Change = PraiseTheSave.Properties.Settings.Default.LastDS3Change;
+                if (
+                    IsDirectoryEmpty(ds3destination)
+                    ||
+                    !lastDS3Change.HasValue
+                    ||
+                    PraiseTheSave.Properties.Settings.Default.LastDS3Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds3save)).FullName)
+                    )
                 {
 
                     while (PraiseTheSave.Properties.Settings.Default.SaveAmount <= Directory.GetFiles(ds3destination).Length)
