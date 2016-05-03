@@ -19,7 +19,7 @@ It will also only create backups if the original save file changed, so you wont 
 * configurable destination folder
 * pretty small (less than 1mb) and very light footprint
 
-[Download it here](https://github.com/lucidlemon/PraiseTheSave/releases/tag/1.0.0)
+[Download it here](https://github.com/lucidlemon/PraiseTheSave/releases)
 
 ![Screenshot of the app](http://i.imgur.com/1bClpsJ.png)
 
