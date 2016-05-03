@@ -17,6 +17,10 @@ namespace PraiseTheSave
         public Timer BackupTimer;
         public DateTime BackupStarting;
 
+        public DateTime? lastDS1Change;
+        public DateTime? lastDS2Change;
+        public DateTime? lastDS3Change;
+
         public Form1()
         {
             BackupTimer = new Timer();
@@ -200,13 +204,13 @@ namespace PraiseTheSave
                 if (!Directory.Exists(ds1destination))
                     Directory.CreateDirectory(ds1destination);
 
-                DateTime? lastDS1Change = PraiseTheSave.Properties.Settings.Default.LastDS1Change;
+                
                 if (
                     IsDirectoryEmpty(ds1destination)
                     ||
                     !lastDS1Change.HasValue
                     ||
-                    PraiseTheSave.Properties.Settings.Default.LastDS1Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1save)).FullName)
+                    lastDS1Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1save)).FullName)
                     )
                 {
                     while (PraiseTheSave.Properties.Settings.Default.SaveAmount <= Directory.GetFiles(ds1destination).Length)
@@ -231,14 +235,14 @@ namespace PraiseTheSave
             {
                 if (!Directory.Exists(ds2destination))
                     Directory.CreateDirectory(ds2destination);
+                
 
-                DateTime? lastDS2Change = PraiseTheSave.Properties.Settings.Default.LastDS2Change;
                 if (
                     IsDirectoryEmpty(ds2destination)
                     ||
                     !lastDS2Change.HasValue
                     ||
-                    PraiseTheSave.Properties.Settings.Default.LastDS2Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds2save)).FullName)
+                    lastDS2Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds2save)).FullName)
                     )
                 {
 
@@ -265,13 +269,12 @@ namespace PraiseTheSave
                 if (!Directory.Exists(ds3destination))
                     Directory.CreateDirectory(ds3destination);
 
-                DateTime? lastDS3Change = PraiseTheSave.Properties.Settings.Default.LastDS3Change;
                 if (
                     IsDirectoryEmpty(ds3destination)
                     ||
                     !lastDS3Change.HasValue
                     ||
-                    PraiseTheSave.Properties.Settings.Default.LastDS3Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds3save)).FullName)
+                    lastDS3Change != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds3save)).FullName)
                     )
                 {
 
@@ -320,7 +323,8 @@ namespace PraiseTheSave
             PraiseTheSave.Properties.Settings.Default.SaveInterval = (int) saveIntervalInput.Value;
             PraiseTheSave.Properties.Settings.Default.Save();
 
-           BackupTimer.Interval = (PraiseTheSave.Properties.Settings.Default.SaveInterval * 60 * 1000);
+            BackupTimer.Interval = (PraiseTheSave.Properties.Settings.Default.SaveInterval * 60 * 1000);
+            resetTimer();
         }
 
         private void activateAutomaticBackups_CheckedChanged(object sender, EventArgs e)
@@ -328,6 +332,11 @@ namespace PraiseTheSave
             PraiseTheSave.Properties.Settings.Default.AutomaticBackups = activateAutomaticBackups.Checked;
             PraiseTheSave.Properties.Settings.Default.Save();
 
+            resetTimer();
+        }
+
+        private void resetTimer()
+        {
             BackupTimer.Stop();
             BackupTimer.Enabled = false;
 
