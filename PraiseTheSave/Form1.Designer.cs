@@ -54,8 +54,10 @@
             this.ds1_found_folder = new System.Windows.Forms.Label();
             this.ds1link = new System.Windows.Forms.Label();
             this.activateAutomaticBackups = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.ds1R_last_change_label = new System.Windows.Forms.Label();
+            this.ds1R_found_folder = new System.Windows.Forms.Label();
+            this.ds1Rlink = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.saveAmountInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.saveIntervalInput)).BeginInit();
@@ -204,7 +206,7 @@
             // 
             this.backupNow.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.backupNow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.backupNow.Location = new System.Drawing.Point(245, 521);
+            this.backupNow.Location = new System.Drawing.Point(245, 612);
             this.backupNow.Name = "backupNow";
             this.backupNow.Size = new System.Drawing.Size(109, 51);
             this.backupNow.TabIndex = 13;
@@ -216,7 +218,7 @@
             // 
             this.lastBackupLabel.AutoSize = true;
             this.lastBackupLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastBackupLabel.Location = new System.Drawing.Point(20, 531);
+            this.lastBackupLabel.Location = new System.Drawing.Point(20, 622);
             this.lastBackupLabel.Name = "lastBackupLabel";
             this.lastBackupLabel.Size = new System.Drawing.Size(159, 13);
             this.lastBackupLabel.TabIndex = 14;
@@ -325,20 +327,6 @@
             this.activateAutomaticBackups.UseVisualStyleBackColor = true;
             this.activateAutomaticBackups.CheckedChanged += new System.EventHandler(this.activateAutomaticBackups_CheckedChanged);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.DimGray;
-            this.button1.Location = new System.Drawing.Point(245, 493);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 23);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "gain 50k souls";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -350,14 +338,49 @@
             this.label5.TabIndex = 25;
             this.label5.Text = "created by /u/karreerose";
             // 
+            // ds1R_last_change_label
+            // 
+            this.ds1R_last_change_label.AutoSize = true;
+            this.ds1R_last_change_label.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ds1R_last_change_label.Location = new System.Drawing.Point(35, 578);
+            this.ds1R_last_change_label.Name = "ds1R_last_change_label";
+            this.ds1R_last_change_label.Size = new System.Drawing.Size(183, 13);
+            this.ds1R_last_change_label.TabIndex = 28;
+            this.ds1R_last_change_label.Text = "Last Change couldn\'t be detected.";
+            // 
+            // ds1R_found_folder
+            // 
+            this.ds1R_found_folder.AutoSize = true;
+            this.ds1R_found_folder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ds1R_found_folder.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ds1R_found_folder.Location = new System.Drawing.Point(35, 560);
+            this.ds1R_found_folder.Name = "ds1R_found_folder";
+            this.ds1R_found_folder.Size = new System.Drawing.Size(117, 13);
+            this.ds1R_found_folder.TabIndex = 27;
+            this.ds1R_found_folder.Text = "No SaveGames found";
+            this.ds1R_found_folder.Click += new System.EventHandler(this.ds1Rlink_Click);
+            // 
+            // ds1Rlink
+            // 
+            this.ds1Rlink.AutoSize = true;
+            this.ds1Rlink.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ds1Rlink.Location = new System.Drawing.Point(20, 531);
+            this.ds1Rlink.Name = "ds1Rlink";
+            this.ds1Rlink.Size = new System.Drawing.Size(158, 17);
+            this.ds1Rlink.TabIndex = 26;
+            this.ds1Rlink.Text = "Dark Souls I Remastered";
+            this.ds1Rlink.Click += new System.EventHandler(this.ds1Rlink_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(366, 584);
+            this.ClientSize = new System.Drawing.Size(366, 675);
+            this.Controls.Add(this.ds1R_last_change_label);
+            this.Controls.Add(this.ds1R_found_folder);
+            this.Controls.Add(this.ds1Rlink);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.activateAutomaticBackups);
             this.Controls.Add(this.ds1_last_change_label);
             this.Controls.Add(this.ds1_found_folder);
@@ -421,8 +444,10 @@
         private System.Windows.Forms.Label ds1_found_folder;
         private System.Windows.Forms.Label ds1link;
         private System.Windows.Forms.CheckBox activateAutomaticBackups;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label ds1R_last_change_label;
+        private System.Windows.Forms.Label ds1R_found_folder;
+        private System.Windows.Forms.Label ds1Rlink;
     }
 }
 

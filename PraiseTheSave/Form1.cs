@@ -20,6 +20,7 @@ namespace PraiseTheSave
         public DateTime? lastDS1Change;
         public DateTime? lastDS2Change;
         public DateTime? lastDS3Change;
+        public DateTime? lastDS1RChange;
 
         public Form1()
         {
@@ -64,7 +65,7 @@ namespace PraiseTheSave
 
         private FileInfo getLatestFileInDir(DirectoryInfo dir)
         {
-            return dir.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+            return dir.GetFiles("*.*", SearchOption.AllDirectories).OrderByDescending(f => f.LastWriteTime).First();
         }
 
         private FileInfo getOldestFileInDir(DirectoryInfo dir)
@@ -101,6 +102,12 @@ namespace PraiseTheSave
             {
                 string ds3save = @"%AppData%\DarkSoulsIII";
                 PraiseTheSave.Properties.Settings.Default.ds3location = Environment.ExpandEnvironmentVariables(ds3save);
+            }
+
+            if (PraiseTheSave.Properties.Settings.Default.ds1Rlocation == "" || !Directory.Exists(PraiseTheSave.Properties.Settings.Default.ds1location))
+            {
+                string ds1save = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DARK SOULS REMASTERED";
+                PraiseTheSave.Properties.Settings.Default.ds1Rlocation = Environment.ExpandEnvironmentVariables(ds1save);
             }
 
             PraiseTheSave.Properties.Settings.Default.Save();
@@ -143,7 +150,7 @@ namespace PraiseTheSave
             }
             else
             {
-                ds3_found_folder.Text = "found no ds3 saves.";
+                ds1_found_folder.Text = "found no ds1 saves.";
             }
 
 
@@ -159,7 +166,7 @@ namespace PraiseTheSave
             }
             else
             {
-                ds3_found_folder.Text = "found no ds3 saves.";
+                ds2_found_folder.Text = "found no ds2 saves.";
             }
 
 
@@ -176,6 +183,20 @@ namespace PraiseTheSave
             {
                 ds3_found_folder.Text = "found no ds3 saves.";
             }
+
+            string ds1Rsave = PraiseTheSave.Properties.Settings.Default.ds1Rlocation;
+            if (Directory.Exists(ds1Rsave))
+            {
+                long ds1R_found_folder_size = DirSize(new DirectoryInfo(ds1Rsave));
+                DateTime ds1R_last_change = File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1Rsave)).FullName);
+
+                ds1R_found_folder.Text = "found ds1 remastered saves! total size is " + (ds1R_found_folder_size / 1024.0 / 1024.0).ToString("0.00") + "Mb";
+                ds1R_last_change_label.Text = "last change was at: " + ds1R_last_change.ToString();
+            }
+            else
+            {
+                ds1R_found_folder.Text = "found no ds1 remastered saves.";
+            }
         }
 
 
@@ -188,6 +209,7 @@ namespace PraiseTheSave
             string ds1destination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds1\";
             string ds2destination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds2\";
             string ds3destination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds3\";
+            string ds1Rdestination = PraiseTheSave.Properties.Settings.Default.SaveLocation + @"\ds1_remastered\";
 
 
             if (!Directory.Exists(PraiseTheSave.Properties.Settings.Default.SaveLocation))
@@ -294,6 +316,37 @@ namespace PraiseTheSave
                 PraiseTheSave.Properties.Settings.Default.LastDS3Change = File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds3save)).FullName);
             }
 
+            string ds1Rsave = PraiseTheSave.Properties.Settings.Default.ds1Rlocation;
+            if (Directory.Exists(ds1Rsave))
+            {
+                if (!Directory.Exists(ds1Rdestination))
+                    Directory.CreateDirectory(ds1Rdestination);
+
+
+                if (
+                    IsDirectoryEmpty(ds1Rdestination)
+                    ||
+                    !lastDS1RChange.HasValue
+                    ||
+                    lastDS1RChange != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1Rsave)).FullName)
+                    )
+                {
+                    while (PraiseTheSave.Properties.Settings.Default.SaveAmount <= Directory.GetFiles(ds1Rdestination).Length)
+                    {
+                        FileInfo deleteMe = getOldestFileInDir(new DirectoryInfo(ds1Rdestination));
+                        deleteMe.Delete();
+                    }
+
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        zip.AddDirectory(PraiseTheSave.Properties.Settings.Default.ds1Rlocation);
+                        zip.Save(ds1Rdestination + localDate.ToString("yyyyMMddHHmmss") + ".zip");
+                    }
+                }
+
+                PraiseTheSave.Properties.Settings.Default.LastDS1RChange = File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(ds1Rsave)).FullName);
+            }
+
             PraiseTheSave.Properties.Settings.Default.Save();
             refreshInfo();
         }
@@ -363,6 +416,11 @@ namespace PraiseTheSave
         private void ds3link_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(PraiseTheSave.Properties.Settings.Default.ds3location);
+        }
+
+        private void ds1Rlink_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(PraiseTheSave.Properties.Settings.Default.ds1Rlocation);
         }
 
         private void backupFolderLabel_Click(object sender, EventArgs e)
