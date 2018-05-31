@@ -72,12 +72,16 @@ namespace PraiseTheSave
 
         private FileInfo GetLatestFileInDir(DirectoryInfo dir)
         {
-            return dir.GetFiles("*.*", SearchOption.AllDirectories).OrderByDescending(f => f.LastWriteTime).First();
+            FileInfo[] files = dir.GetFiles("*.*", SearchOption.AllDirectories);
+            if (files.Length == 0) return null;
+            return files.Aggregate((current, next) => next.LastWriteTime > current.LastWriteTime ? next : current);
         }
 
         private FileInfo GetOldestFileInDir(DirectoryInfo dir)
         {
-            return dir.GetFiles().OrderByDescending(f => f.LastWriteTime).Last();
+            FileInfo[] files = dir.GetFiles();
+            if (files.Length == 0) return null;
+            return files.Aggregate((current, next) => next.LastWriteTime < current.LastWriteTime ? next : current);
         }
 
         public bool IsDirectoryEmpty(string path)
