@@ -14,8 +14,8 @@ namespace PraiseTheSave
 {
     public partial class Form1 : Form
     {
-        public Timer BackupTimer;
-        public DateTime BackupStarting;
+        public Timer backupTimer;
+        public DateTime backupStarting;
 
         public DateTime? lastDS1Change;
         public DateTime? lastDS2Change;
@@ -26,22 +26,22 @@ namespace PraiseTheSave
 
         public Form1()
         {
-            BackupTimer = new Timer();
-            BackupTimer.Tick += new EventHandler(doBackup);
-            BackupTimer.Interval = (DefSettings.SaveInterval * 60 * 1000);
-            BackupTimer.Enabled = false;
+            backupTimer = new Timer();
+            backupTimer.Tick += new EventHandler(DoBackup);
+            backupTimer.Interval = (DefSettings.SaveInterval * 60 * 1000);
+            backupTimer.Enabled = false;
 
             if (DefSettings.AutomaticBackups == true)
             {
-                BackupTimer.Enabled = true;
-                BackupTimer.Start();
-                BackupStarting = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
+                backupTimer.Enabled = true;
+                backupTimer.Start();
+                backupStarting = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
             }
 
             InitializeComponent();
 
-            checkSaveLocations();
-            refreshInfo();
+            CheckSaveLocations();
+            RefreshInfo();
 
             activateAutomaticBackups.Checked = DefSettings.AutomaticBackups;
         }
@@ -70,12 +70,12 @@ namespace PraiseTheSave
         }
 
 
-        private FileInfo getLatestFileInDir(DirectoryInfo dir)
+        private FileInfo GetLatestFileInDir(DirectoryInfo dir)
         {
             return dir.GetFiles("*.*", SearchOption.AllDirectories).OrderByDescending(f => f.LastWriteTime).First();
         }
 
-        private FileInfo getOldestFileInDir(DirectoryInfo dir)
+        private FileInfo GetOldestFileInDir(DirectoryInfo dir)
         {
             return dir.GetFiles().OrderByDescending(f => f.LastWriteTime).Last();
         }
@@ -91,7 +91,7 @@ namespace PraiseTheSave
             
         }
 
-        public void checkSaveLocations()
+        public void CheckSaveLocations()
         {
             if (DefSettings.ds1location == "" || !Directory.Exists(DefSettings.ds1location))
             {
@@ -125,7 +125,7 @@ namespace PraiseTheSave
             if (Directory.Exists(saveLocation))
             {
                 long folderSize = DirSize(new DirectoryInfo(saveLocation));
-                DateTime changeTime = File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
+                DateTime changeTime = File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
 
                 foundFolder.Text = "found " + gameInitials + " saves! total size is " + BytesToMbStr(folderSize);
                 lastChange.Text = "last change was at: " + changeTime.ToString();
@@ -136,7 +136,7 @@ namespace PraiseTheSave
             }
         }
 
-        public void refreshInfo()
+        public void RefreshInfo()
         {
             string backupDir = DefSettings.SaveLocation;
             backupFolderLabel.Text = backupDir;
@@ -152,7 +152,7 @@ namespace PraiseTheSave
 
             if (DefSettings.AutomaticBackups)
             {
-                lastBackupLabel.Text = "Next Backup at " + BackupStarting.ToString("HH:mm:ss") + Environment.NewLine + "(if there were changes to the file)";
+                lastBackupLabel.Text = "Next Backup at " + backupStarting.ToString("HH:mm:ss") + Environment.NewLine + "(if there were changes to the file)";
             } else
             {
                 lastBackupLabel.Text = "No automatic Backups active.";
@@ -178,12 +178,12 @@ namespace PraiseTheSave
                     ||
                     !lastChange.HasValue
                     ||
-                    lastChange != File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(saveLocation)).FullName)
+                    lastChange != File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName)
                     )
                 {
                     while (DefSettings.SaveAmount <= Directory.GetFiles(destination).Length)
                     {
-                        FileInfo deleteMe = getOldestFileInDir(new DirectoryInfo(destination));
+                        FileInfo deleteMe = GetOldestFileInDir(new DirectoryInfo(destination));
                         deleteMe.Delete();
                     }
 
@@ -194,11 +194,11 @@ namespace PraiseTheSave
                     }
                 }
 
-                lastChangeSetting = File.GetLastWriteTime(getLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
+                lastChangeSetting = File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
             }
         }
 
-        public void doBackup(object sender, EventArgs e)
+        public void DoBackup(object sender, EventArgs e)
         {
             DateTime localDate = DateTime.Now;
 
@@ -222,11 +222,11 @@ namespace PraiseTheSave
             BackupGame(DefSettings.ds1Rlocation, ds1Rdestination, lastDS1RChange, DefSettings.LastDS1RChange);
 
             DefSettings.Save();
-            refreshInfo();
+            RefreshInfo();
         }
 
 
-        private void chooseDirectory(object sender, EventArgs e)
+        private void ChooseDirectory(object sender, EventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
@@ -235,74 +235,74 @@ namespace PraiseTheSave
             {
                 DefSettings.SaveLocation = dialog.SelectedPath;
                 DefSettings.Save();
-                refreshInfo();
+                RefreshInfo();
             }
         }
 
-        private void saveAmountInput_ValueChanged(object sender, EventArgs e)
+        private void SaveAmountInput_ValueChanged(object sender, EventArgs e)
         {
             DefSettings.SaveAmount = (int) saveAmountInput.Value;
             DefSettings.Save();
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             DefSettings.SaveInterval = (int) saveIntervalInput.Value;
             DefSettings.Save();
 
-            BackupTimer.Interval = (DefSettings.SaveInterval * 60 * 1000);
-            resetTimer();
+            backupTimer.Interval = (DefSettings.SaveInterval * 60 * 1000);
+            ResetTimer();
         }
 
-        private void activateAutomaticBackups_CheckedChanged(object sender, EventArgs e)
+        private void ActivateAutomaticBackups_CheckedChanged(object sender, EventArgs e)
         {
             DefSettings.AutomaticBackups = activateAutomaticBackups.Checked;
             DefSettings.Save();
 
-            resetTimer();
+            ResetTimer();
         }
 
-        private void resetTimer()
+        private void ResetTimer()
         {
-            BackupTimer.Stop();
-            BackupTimer.Enabled = false;
+            backupTimer.Stop();
+            backupTimer.Enabled = false;
 
             if (activateAutomaticBackups.Checked)
             {
-                BackupTimer.Start();
-                BackupTimer.Enabled = true;
-                BackupStarting = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
+                backupTimer.Start();
+                backupTimer.Enabled = true;
+                backupStarting = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
             }
 
-            refreshInfo();
+            RefreshInfo();
         }
 
-        private void ds1link_Click(object sender, EventArgs e)
+        private void Ds1link_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(DefSettings.ds1location);
         }
 
-        private void ds2link_Click(object sender, EventArgs e)
+        private void Ds2link_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(DefSettings.ds2location);
         }
 
-        private void ds3link_Click(object sender, EventArgs e)
+        private void Ds3link_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(DefSettings.ds3location);
         }
 
-        private void ds1Rlink_Click(object sender, EventArgs e)
+        private void Ds1Rlink_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(DefSettings.ds1Rlocation);
         }
 
-        private void backupFolderLabel_Click(object sender, EventArgs e)
+        private void BackupFolderLabel_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(DefSettings.SaveLocation);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Git Gud u fucking casul. No Souls for u.", "WTF!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }

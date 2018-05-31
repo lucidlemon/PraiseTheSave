@@ -84,7 +84,7 @@
             this.ds3link.Size = new System.Drawing.Size(90, 17);
             this.ds3link.TabIndex = 1;
             this.ds3link.Text = "Dark Souls III";
-            this.ds3link.Click += new System.EventHandler(this.ds3link_Click);
+            this.ds3link.Click += new System.EventHandler(this.Ds3link_Click);
             // 
             // ds3_found_folder
             // 
@@ -96,7 +96,7 @@
             this.ds3_found_folder.Size = new System.Drawing.Size(117, 13);
             this.ds3_found_folder.TabIndex = 4;
             this.ds3_found_folder.Text = "No SaveGames found";
-            this.ds3_found_folder.Click += new System.EventHandler(this.ds3link_Click);
+            this.ds3_found_folder.Click += new System.EventHandler(this.Ds3link_Click);
             // 
             // chooseDirectoryButton
             // 
@@ -108,7 +108,7 @@
             this.chooseDirectoryButton.TabIndex = 5;
             this.chooseDirectoryButton.Text = "choose save location";
             this.chooseDirectoryButton.UseVisualStyleBackColor = true;
-            this.chooseDirectoryButton.Click += new System.EventHandler(this.chooseDirectory);
+            this.chooseDirectoryButton.Click += new System.EventHandler(this.ChooseDirectory);
             // 
             // ds3_last_change_label
             // 
@@ -149,7 +149,7 @@
             0,
             0,
             0});
-            this.saveAmountInput.ValueChanged += new System.EventHandler(this.saveAmountInput_ValueChanged);
+            this.saveAmountInput.ValueChanged += new System.EventHandler(this.SaveAmountInput_ValueChanged);
             // 
             // label3
             // 
@@ -190,7 +190,7 @@
             0,
             0,
             0});
-            this.saveIntervalInput.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.saveIntervalInput.ValueChanged += new System.EventHandler(this.NumericUpDown1_ValueChanged);
             // 
             // label7
             // 
@@ -212,7 +212,7 @@
             this.backupNow.TabIndex = 13;
             this.backupNow.Text = "Backup Now.";
             this.backupNow.UseVisualStyleBackColor = true;
-            this.backupNow.Click += new System.EventHandler(this.doBackup);
+            this.backupNow.Click += new System.EventHandler(this.DoBackup);
             // 
             // lastBackupLabel
             // 
@@ -235,7 +235,7 @@
             this.backupFolderLabel.Size = new System.Drawing.Size(170, 13);
             this.backupFolderLabel.TabIndex = 15;
             this.backupFolderLabel.Text = "Backing up to: C:\\PraiseTheSave";
-            this.backupFolderLabel.Click += new System.EventHandler(this.backupFolderLabel_Click);
+            this.backupFolderLabel.Click += new System.EventHandler(this.BackupFolderLabel_Click);
             // 
             // backupFolderSizeLabel
             // 
@@ -268,7 +268,7 @@
             this.ds2_found_folder.Size = new System.Drawing.Size(117, 13);
             this.ds2_found_folder.TabIndex = 18;
             this.ds2_found_folder.Text = "No SaveGames found";
-            this.ds2_found_folder.Click += new System.EventHandler(this.ds2link_Click);
+            this.ds2_found_folder.Click += new System.EventHandler(this.Ds2link_Click);
             // 
             // ds2link
             // 
@@ -279,7 +279,7 @@
             this.ds2link.Size = new System.Drawing.Size(194, 17);
             this.ds2link.TabIndex = 17;
             this.ds2link.Text = "Dark Souls II (including SotfS)";
-            this.ds2link.Click += new System.EventHandler(this.ds2link_Click);
+            this.ds2link.Click += new System.EventHandler(this.Ds2link_Click);
             // 
             // ds1_last_change_label
             // 
@@ -301,7 +301,7 @@
             this.ds1_found_folder.Size = new System.Drawing.Size(117, 13);
             this.ds1_found_folder.TabIndex = 21;
             this.ds1_found_folder.Text = "No SaveGames found";
-            this.ds1_found_folder.Click += new System.EventHandler(this.ds1link_Click);
+            this.ds1_found_folder.Click += new System.EventHandler(this.Ds1link_Click);
             // 
             // ds1link
             // 
@@ -312,7 +312,7 @@
             this.ds1link.Size = new System.Drawing.Size(82, 17);
             this.ds1link.TabIndex = 20;
             this.ds1link.Text = "Dark Souls I";
-            this.ds1link.Click += new System.EventHandler(this.ds1link_Click);
+            this.ds1link.Click += new System.EventHandler(this.Ds1link_Click);
             // 
             // activateAutomaticBackups
             // 
@@ -325,7 +325,7 @@
             this.activateAutomaticBackups.Text = "Activate Automatic Backups";
             this.activateAutomaticBackups.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.activateAutomaticBackups.UseVisualStyleBackColor = true;
-            this.activateAutomaticBackups.CheckedChanged += new System.EventHandler(this.activateAutomaticBackups_CheckedChanged);
+            this.activateAutomaticBackups.CheckedChanged += new System.EventHandler(this.ActivateAutomaticBackups_CheckedChanged);
             // 
             // label5
             // 
@@ -358,7 +358,7 @@
             this.ds1R_found_folder.Size = new System.Drawing.Size(117, 13);
             this.ds1R_found_folder.TabIndex = 27;
             this.ds1R_found_folder.Text = "No SaveGames found";
-            this.ds1R_found_folder.Click += new System.EventHandler(this.ds1Rlink_Click);
+            this.ds1R_found_folder.Click += new System.EventHandler(this.Ds1Rlink_Click);
             // 
             // ds1Rlink
             // 
@@ -369,7 +369,7 @@
             this.ds1Rlink.Size = new System.Drawing.Size(158, 17);
             this.ds1Rlink.TabIndex = 26;
             this.ds1Rlink.Text = "Dark Souls I Remastered";
-            this.ds1Rlink.Click += new System.EventHandler(this.ds1Rlink_Click);
+            this.ds1Rlink.Click += new System.EventHandler(this.Ds1Rlink_Click);
             // 
             // Form1
             // 
