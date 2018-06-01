@@ -150,6 +150,10 @@ namespace PraiseTheSave
                 backupFolderSizeLabel.Text = string.Format(Resource1.msgBackupFolderSize,
                     BytesToMbStr(DirSize(new DirectoryInfo(backupDir))), Resource1.mebibyteUnit);
             }
+            else
+            {
+                backupFolderSizeLabel.Text = Resource1.msgBackupFolderDNE;
+            }
             
 
             saveAmountInput.Value = DefSettings.SaveAmount;

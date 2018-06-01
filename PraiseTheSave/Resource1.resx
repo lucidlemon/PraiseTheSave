@@ -118,37 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="initialsDs1" xml:space="preserve">
-    <value>ds1</value>
+    <value>DS1</value>
   </data>
   <data name="initialsDs2" xml:space="preserve">
-    <value>ds2</value>
+    <value>DS2</value>
   </data>
   <data name="initialsDs3" xml:space="preserve">
-    <value>ds3</value>
+    <value>DS3</value>
   </data>
   <data name="initialsDsr" xml:space="preserve">
-    <value>ds1 remastered</value>
+    <value>DSR</value>
   </data>
   <data name="mebibyteUnit" xml:space="preserve">
-    <value>Mb</value>
+    <value>MiB</value>
+  </data>
+  <data name="msgBackupFolderDNE" xml:space="preserve">
+    <value>Folder does not exist.</value>
   </data>
   <data name="msgBackupFolderSize" xml:space="preserve">
-    <value>Size of the backup folder is {0}{1}</value>
+    <value>Size of these backups: {0}{1}.</value>
   </data>
   <data name="msgBackupsInactive" xml:space="preserve">
-    <value>No automatic backups active.</value>
+    <value>Next backup: never (automatic backups are inactive).</value>
   </data>
   <data name="msgFoundNoSaves" xml:space="preserve">
-    <value>found no {0} saves.</value>
+    <value>Found no {0} saves.</value>
   </data>
   <data name="msgFoundSaves" xml:space="preserve">
-    <value>found {0} saves! total size is {1}{2}</value>
+    <value>Found {0} saves! Total size: {1}{2}.</value>
   </data>
   <data name="msgLastChange" xml:space="preserve">
-    <value>last change was at: {0}</value>
+    <value>Last change: {0}.</value>
   </data>
   <data name="msgNextBackup" xml:space="preserve">
-    <value>Next Backup at: {0} (if there were no changes to the file)</value>
+    <value>Next backup: {0} (will be skipped if the file is unchanged).</value>
   </data>
   <data name="msgNoSouls" xml:space="preserve">
     <value>Git Gud u fucking casul. No Souls for u.</value>

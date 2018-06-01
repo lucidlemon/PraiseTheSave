@@ -61,7 +61,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ds1.
+        ///   Looks up a localized string similar to DS1.
         /// </summary>
         internal static string initialsDs1 {
             get {
@@ -70,7 +70,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ds2.
+        ///   Looks up a localized string similar to DS2.
         /// </summary>
         internal static string initialsDs2 {
             get {
@@ -79,7 +79,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ds3.
+        ///   Looks up a localized string similar to DS3.
         /// </summary>
         internal static string initialsDs3 {
             get {
@@ -88,7 +88,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ds1 remastered.
+        ///   Looks up a localized string similar to DSR.
         /// </summary>
         internal static string initialsDsr {
             get {
@@ -97,7 +97,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mb.
+        ///   Looks up a localized string similar to MiB.
         /// </summary>
         internal static string mebibyteUnit {
             get {
@@ -106,7 +106,16 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Size of the backup folder is {0}{1}.
+        ///   Looks up a localized string similar to Folder does not exist..
+        /// </summary>
+        internal static string msgBackupFolderDNE {
+            get {
+                return ResourceManager.GetString("msgBackupFolderDNE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size of these backups: {0}{1}..
         /// </summary>
         internal static string msgBackupFolderSize {
             get {
@@ -115,7 +124,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No automatic backups active..
+        ///   Looks up a localized string similar to Next backup: never (automatic backups are inactive)..
         /// </summary>
         internal static string msgBackupsInactive {
             get {
@@ -124,7 +133,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to found no {0} saves..
+        ///   Looks up a localized string similar to Found no {0} saves..
         /// </summary>
         internal static string msgFoundNoSaves {
             get {
@@ -133,7 +142,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to found {0} saves! total size is {1}{2}.
+        ///   Looks up a localized string similar to Found {0} saves! Total size: {1}{2}..
         /// </summary>
         internal static string msgFoundSaves {
             get {
@@ -142,7 +151,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to last change was at: {0}.
+        ///   Looks up a localized string similar to Last change: {0}..
         /// </summary>
         internal static string msgLastChange {
             get {
@@ -151,7 +160,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next Backup at: {0} (if there were no changes to the file).
+        ///   Looks up a localized string similar to Next backup: {0} (will be skipped if the file is unchanged)..
         /// </summary>
         internal static string msgNextBackup {
             get {

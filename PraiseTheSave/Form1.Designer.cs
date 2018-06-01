@@ -116,9 +116,9 @@
             this.ds3_last_change_label.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ds3_last_change_label.Location = new System.Drawing.Point(35, 493);
             this.ds3_last_change_label.Name = "ds3_last_change_label";
-            this.ds3_last_change_label.Size = new System.Drawing.Size(183, 13);
+            this.ds3_last_change_label.Size = new System.Drawing.Size(181, 13);
             this.ds3_last_change_label.TabIndex = 6;
-            this.ds3_last_change_label.Text = "Last Change couldn\'t be detected.";
+            this.ds3_last_change_label.Text = "Last change couldn\'t be detected.";
             // 
             // label2
             // 
@@ -255,9 +255,9 @@
             this.ds2_last_change_label.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ds2_last_change_label.Location = new System.Drawing.Point(35, 410);
             this.ds2_last_change_label.Name = "ds2_last_change_label";
-            this.ds2_last_change_label.Size = new System.Drawing.Size(183, 13);
+            this.ds2_last_change_label.Size = new System.Drawing.Size(181, 13);
             this.ds2_last_change_label.TabIndex = 19;
-            this.ds2_last_change_label.Text = "Last Change couldn\'t be detected.";
+            this.ds2_last_change_label.Text = "Last change couldn\'t be detected.";
             // 
             // ds2_found_folder
             // 
@@ -345,9 +345,9 @@
             this.ds1R_last_change_label.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ds1R_last_change_label.Location = new System.Drawing.Point(35, 578);
             this.ds1R_last_change_label.Name = "ds1R_last_change_label";
-            this.ds1R_last_change_label.Size = new System.Drawing.Size(183, 13);
+            this.ds1R_last_change_label.Size = new System.Drawing.Size(181, 13);
             this.ds1R_last_change_label.TabIndex = 28;
-            this.ds1R_last_change_label.Text = "Last Change couldn\'t be detected.";
+            this.ds1R_last_change_label.Text = "Last change couldn\'t be detected.";
             // 
             // ds1R_found_folder
             // 
