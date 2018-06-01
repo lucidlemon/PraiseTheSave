@@ -15,7 +15,7 @@ namespace PraiseTheSave
     public partial class Form1 : Form
     {
         public Timer backupTimer;
-        public DateTime backupStarting;
+        public DateTime nextBackup;
 
         public DateTime? lastDS1Change;
         public DateTime? lastDS2Change;
@@ -35,7 +35,7 @@ namespace PraiseTheSave
             {
                 backupTimer.Enabled = true;
                 backupTimer.Start();
-                backupStarting = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
+                nextBackup = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
             }
 
             InitializeComponent();
@@ -161,7 +161,7 @@ namespace PraiseTheSave
 
             if (DefSettings.AutomaticBackups)
             {
-                lastBackupLabel.Text = string.Format(Resource1.msgNextBackup, backupStarting.ToString("T"));
+                lastBackupLabel.Text = string.Format(Resource1.msgNextBackup, nextBackup.ToString("T"));
             }
             else
             {
@@ -210,7 +210,7 @@ namespace PraiseTheSave
 
         public void DoBackup(object sender, EventArgs e)
         {
-            DateTime localDate = DateTime.Now;
+            nextBackup = nextBackup.AddMilliseconds(backupTimer.Interval);
 
             Console.Write(DefSettings.SaveLocation);
 
@@ -281,7 +281,7 @@ namespace PraiseTheSave
             {
                 backupTimer.Start();
                 backupTimer.Enabled = true;
-                backupStarting = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
+                nextBackup = DateTime.Now.AddMinutes(DefSettings.SaveInterval);
             }
 
             RefreshInfo();
