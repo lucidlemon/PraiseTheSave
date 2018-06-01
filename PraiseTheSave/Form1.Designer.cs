@@ -219,6 +219,7 @@
             this.lastBackupLabel.AutoSize = true;
             this.lastBackupLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lastBackupLabel.Location = new System.Drawing.Point(20, 622);
+            this.lastBackupLabel.MaximumSize = new System.Drawing.Size(219, 50);
             this.lastBackupLabel.Name = "lastBackupLabel";
             this.lastBackupLabel.Size = new System.Drawing.Size(159, 13);
             this.lastBackupLabel.TabIndex = 14;

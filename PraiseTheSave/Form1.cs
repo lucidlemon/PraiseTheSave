@@ -48,7 +48,7 @@ namespace PraiseTheSave
 
         private string BytesToMbStr(long numBytes)
         {
-            return (numBytes / 1024.0 / 1024.0).ToString("0.00") + "Mb";
+            return (numBytes / 1024.0 / 1024.0).ToString("N2");
         }
 
         public static long DirSize(DirectoryInfo d)
@@ -131,12 +131,13 @@ namespace PraiseTheSave
                 long folderSize = DirSize(new DirectoryInfo(saveLocation));
                 DateTime changeTime = File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
 
-                foundFolder.Text = "found " + gameInitials + " saves! total size is " + BytesToMbStr(folderSize);
-                lastChange.Text = "last change was at: " + changeTime.ToString();
+                foundFolder.Text = string.Format(Resource1.msgFoundSaves,
+                    gameInitials, BytesToMbStr(folderSize), Resource1.mebibyteUnit);
+                lastChange.Text = string.Format(Resource1.msgLastChange, changeTime.ToString("F"));
             }
             else
             {
-                foundFolder.Text = "found no " + gameInitials + " saves.";
+                foundFolder.Text = string.Format(Resource1.msgFoundNoSaves, gameInitials);
             }
         }
 
@@ -146,8 +147,8 @@ namespace PraiseTheSave
             backupFolderLabel.Text = backupDir;
             if (Directory.Exists(backupDir))
             {
-                backupFolderSizeLabel.Text =
-                "Size of the backup folder is " + BytesToMbStr(DirSize(new DirectoryInfo(backupDir)));
+                backupFolderSizeLabel.Text = string.Format(Resource1.msgBackupFolderSize,
+                    BytesToMbStr(DirSize(new DirectoryInfo(backupDir))), Resource1.mebibyteUnit);
             }
             
 
@@ -156,17 +157,18 @@ namespace PraiseTheSave
 
             if (DefSettings.AutomaticBackups)
             {
-                lastBackupLabel.Text = "Next Backup at " + backupStarting.ToString("HH:mm:ss") + Environment.NewLine + "(if there were changes to the file)";
-            } else
+                lastBackupLabel.Text = string.Format(Resource1.msgNextBackup, backupStarting.ToString("T"));
+            }
+            else
             {
-                lastBackupLabel.Text = "No automatic Backups active.";
+                lastBackupLabel.Text = Resource1.msgBackupsInactive;
             }
 
 
-            DispSaveStats(DefSettings.ds1location, ds1_found_folder, ds1_last_change_label, "ds1");
-            DispSaveStats(DefSettings.ds2location, ds2_found_folder, ds2_last_change_label, "ds2");
-            DispSaveStats(DefSettings.ds3location, ds3_found_folder, ds3_last_change_label, "ds3");
-            DispSaveStats(DefSettings.ds1Rlocation, ds1R_found_folder, ds1R_last_change_label, "ds1 remastered");
+            DispSaveStats(DefSettings.ds1location, ds1_found_folder, ds1_last_change_label, Resource1.initialsDs1);
+            DispSaveStats(DefSettings.ds2location, ds2_found_folder, ds2_last_change_label, Resource1.initialsDs2);
+            DispSaveStats(DefSettings.ds3location, ds3_found_folder, ds3_last_change_label, Resource1.initialsDs3);
+            DispSaveStats(DefSettings.ds1Rlocation, ds1R_found_folder, ds1R_last_change_label, Resource1.initialsDsr);
         }
 
         private void BackupGame(string saveLocation, string destination, DateTime? lastChange, DateTime lastChangeSetting)
@@ -308,7 +310,8 @@ namespace PraiseTheSave
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Git Gud u fucking casul. No Souls for u.", "WTF!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(Resource1.msgNoSouls, Resource1.titleNoSouls,
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
     }
 }
