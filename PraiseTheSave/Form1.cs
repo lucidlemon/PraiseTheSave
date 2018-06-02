@@ -14,15 +14,92 @@ namespace PraiseTheSave
 {
     public partial class Form1 : Form
     {
-        public Timer backupTimer;
-        public DateTime nextBackup;
+        private class Game
+        {
+            public string SavePath { get; }
+            private readonly string backupDir;
 
-        public DateTime? lastDS1Change;
-        public DateTime? lastDS2Change;
-        public DateTime? lastDS3Change;
-        public DateTime? lastDS1RChange;
+            private readonly string dispNameShort;
+            private readonly Label lblFoundFolder;
+            private readonly Label lblLastChange;
 
-        private Properties.Settings DefSettings => Properties.Settings.Default;
+            public Game(string savePath, string backupDir, string dispNameShort, Label lblFoundFolder, Label lblLastChange)
+            {
+                savePath = savePath ?? throw new ArgumentNullException(nameof(savePath));
+                SavePath = Environment.ExpandEnvironmentVariables(savePath);
+                this.backupDir = backupDir ?? throw new ArgumentNullException(nameof(backupDir));
+                this.dispNameShort = dispNameShort ?? throw new ArgumentNullException(nameof(dispNameShort));
+                this.lblFoundFolder = lblFoundFolder ?? throw new ArgumentNullException(nameof(lblFoundFolder));
+                this.lblLastChange = lblLastChange ?? throw new ArgumentNullException(nameof(lblLastChange));
+            }
+
+            private bool DoSavesExist()
+            {
+                return Directory.Exists(SavePath) && DirHasFiles(SavePath, true);
+            }
+
+            public void DispSaveStats()
+            {
+                if (DoSavesExist())
+                {
+                    DateTime changeTime = GetLastChanged(SavePath, true);
+
+                    lblFoundFolder.Text = string.Format(Resource1.msgFoundSaves,
+                        dispNameShort, BytesToMbStr(DirSize(new DirectoryInfo(SavePath), true)), Resource1.mebibyteUnit);
+                    lblLastChange.Text = string.Format(Resource1.msgLastChange, changeTime.ToString("F"));
+                }
+                else
+                {
+                    lblFoundFolder.Text = string.Format(Resource1.msgFoundNoSaves, dispNameShort);
+                }
+            }
+
+            public void Backup()
+            {
+                if (!DoSavesExist()) return; //Do nothing if there are no saves to backup
+
+                string baseDir = DefSettings.SaveLocation;
+                if (!Directory.Exists(baseDir)) Directory.CreateDirectory(baseDir);
+
+                string destination = baseDir;
+                if (!destination.EndsWith(@"\")) destination += @"\";
+                destination += backupDir;
+                if (!destination.EndsWith(@"\")) destination += @"\";
+
+                if (!Directory.Exists(destination)) Directory.CreateDirectory(destination);
+
+                //At this point, we know this game has saves and that the destination folder for their backups exists
+
+                DateTime lastBackup;
+                if (
+                    !Directory.GetFiles(destination).Any()
+                    ||
+                    GetLastChanged(SavePath, true) > (lastBackup = GetLastChanged(destination, false))
+                    ) //If the destination directory is empty, or if there is a save that was changed since the latest backup
+                {
+                    //Delete backups until there are one fewer than the user-set max number
+                    DirectoryInfo dDestination = new DirectoryInfo(destination);
+                    while (DefSettings.SaveAmount <= CountFilesInDir(dDestination, false))
+                    {
+                        GetOldestFileInDir(dDestination, false).Delete();
+                    }
+
+                    //Make a new backup
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        zip.AddDirectory(SavePath);
+                        zip.Save(destination + DateTime.Now.ToString("yyyyMMddHHmmss") + ".zip");
+                    }
+                }
+            }
+        }
+
+        private Timer backupTimer;
+        private DateTime nextBackup;
+
+        private static Properties.Settings DefSettings => Properties.Settings.Default;
+
+        private readonly Dictionary<string, Game> games;
 
         public Form1()
         {
@@ -40,105 +117,82 @@ namespace PraiseTheSave
 
             InitializeComponent();
 
-            CheckSaveLocations();
+            games = new Dictionary<string, Game>
+            {
+                {
+                    "DS1",
+                    new Game(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DarkSouls",
+                DefSettings.dirDS1, Resource1.initialsDs1, ds1_found_folder, ds1_last_change_label)
+                },
+                {
+                    "DS2",
+                    new Game(@"%AppData%\DarkSoulsII", DefSettings.dirDS2, Resource1.initialsDs2,
+                ds2_found_folder, ds2_last_change_label)
+                },
+                {
+                    "DS3",
+                    new Game(@"%AppData%\DarkSoulsIII", DefSettings.dirDS3, Resource1.initialsDs3,
+                ds3_found_folder, ds3_last_change_label)
+                },
+                {
+                    "DSR",
+                    new Game(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DARK SOULS REMASTERED",
+                DefSettings.dirDSR, Resource1.initialsDsr, ds1R_found_folder, ds1R_last_change_label)
+                }
+            };
+
             RefreshInfo();
 
             activateAutomaticBackups.Checked = DefSettings.AutomaticBackups;
         }
 
-        private string BytesToMbStr(long numBytes)
+        private static string BytesToMbStr(long numBytes)
         {
             return (numBytes / 1024.0 / 1024.0).ToString("N2");
         }
 
-        public static long DirSize(DirectoryInfo d)
+        private static long DirSize(DirectoryInfo d, bool checkSubdirs)
         {
-            long size = 0;
-            // Add file sizes.
-            FileInfo[] fis = d.GetFiles();
-            foreach (FileInfo fi in fis)
-            {
-                size += fi.Length;
-            }
-            // Add subdirectory sizes.
-            DirectoryInfo[] dis = d.GetDirectories();
-            foreach (DirectoryInfo di in dis)
-            {
-                size += DirSize(di);
-            }
-            return size;
+            return d.GetFiles("*", checkSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                .Sum(f => f.Length);
         }
 
-
-        private FileInfo GetLatestFileInDir(DirectoryInfo dir)
+        private static bool DirHasFiles(string path, bool checkSubdirs)
         {
-            FileInfo[] files = dir.GetFiles("*.*", SearchOption.AllDirectories);
+            return Directory.GetFiles(path, "*",
+                checkSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                .Any();
+        }
+
+        private static int CountFilesInDir(DirectoryInfo dir, bool checkSubdirs)
+        {
+            return dir.GetFiles("*",
+                checkSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                .Length;
+        }
+
+        private static DateTime GetLastChanged(string path, bool checkSubdirs)
+        {
+            FileInfo[] files = (new DirectoryInfo(path)).GetFiles("*",
+                checkSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+            if (!files.Any()) return new DateTime(0);
+            return files.Aggregate(
+                    (current, next) => next.LastWriteTime > current.LastWriteTime ? next : current
+                    ).LastWriteTime;
+        }
+
+        private static FileInfo GetOldestFileInDir(DirectoryInfo dir, bool checkSubdirs)
+        {
+            FileInfo[] files = dir.GetFiles("*",
+                checkSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
             if (files.Length == 0) return null;
-            return files.Aggregate((current, next) => next.LastWriteTime > current.LastWriteTime ? next : current);
+            return files.Aggregate(
+                (current, next) => next.LastWriteTime < current.LastWriteTime ? next : current);
         }
-
-        private FileInfo GetOldestFileInDir(DirectoryInfo dir)
-        {
-            FileInfo[] files = dir.GetFiles();
-            if (files.Length == 0) return null;
-            return files.Aggregate((current, next) => next.LastWriteTime < current.LastWriteTime ? next : current);
-        }
-
-        public bool IsDirectoryEmpty(string path)
-        {
-            return !Directory.EnumerateFileSystemEntries(path).Any();
-        }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
             
-        }
-
-        public void CheckSaveLocations()
-        {
-            if (DefSettings.ds1location == "" || !Directory.Exists(DefSettings.ds1location))
-            {
-                string ds1save = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DarkSouls";
-                DefSettings.ds1location = Environment.ExpandEnvironmentVariables(ds1save);
-            }
-
-            if (DefSettings.ds2location == "" || !Directory.Exists(DefSettings.ds2location))
-            {
-                string ds2save = @"%AppData%\DarkSoulsII";
-                DefSettings.ds2location = Environment.ExpandEnvironmentVariables(ds2save);
-            }
-
-            if (DefSettings.ds3location == "" || !Directory.Exists(DefSettings.ds3location))
-            {
-                string ds3save = @"%AppData%\DarkSoulsIII";
-                DefSettings.ds3location = Environment.ExpandEnvironmentVariables(ds3save);
-            }
-
-            if (DefSettings.ds1Rlocation == "" || !Directory.Exists(DefSettings.ds1location))
-            {
-                string ds1save = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DARK SOULS REMASTERED";
-                DefSettings.ds1Rlocation = Environment.ExpandEnvironmentVariables(ds1save);
-            }
-
-            DefSettings.Save();
-        }
-
-        private void DispSaveStats(string saveLocation, Label foundFolder, Label lastChange, string gameInitials)
-        {
-            if (Directory.Exists(saveLocation))
-            {
-                long folderSize = DirSize(new DirectoryInfo(saveLocation));
-                DateTime changeTime = File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
-
-                foundFolder.Text = string.Format(Resource1.msgFoundSaves,
-                    gameInitials, BytesToMbStr(folderSize), Resource1.mebibyteUnit);
-                lastChange.Text = string.Format(Resource1.msgLastChange, changeTime.ToString("F"));
-            }
-            else
-            {
-                foundFolder.Text = string.Format(Resource1.msgFoundNoSaves, gameInitials);
-            }
         }
 
         public void RefreshInfo()
@@ -148,7 +202,7 @@ namespace PraiseTheSave
             if (Directory.Exists(backupDir))
             {
                 backupFolderSizeLabel.Text = string.Format(Resource1.msgBackupFolderSize,
-                    BytesToMbStr(DirSize(new DirectoryInfo(backupDir))), Resource1.mebibyteUnit);
+                    BytesToMbStr(DirSize(new DirectoryInfo(backupDir), true)), Resource1.mebibyteUnit);
             }
             else
             {
@@ -168,43 +222,9 @@ namespace PraiseTheSave
                 lastBackupLabel.Text = Resource1.msgBackupsInactive;
             }
 
-
-            DispSaveStats(DefSettings.ds1location, ds1_found_folder, ds1_last_change_label, Resource1.initialsDs1);
-            DispSaveStats(DefSettings.ds2location, ds2_found_folder, ds2_last_change_label, Resource1.initialsDs2);
-            DispSaveStats(DefSettings.ds3location, ds3_found_folder, ds3_last_change_label, Resource1.initialsDs3);
-            DispSaveStats(DefSettings.ds1Rlocation, ds1R_found_folder, ds1R_last_change_label, Resource1.initialsDsr);
-        }
-
-        private void BackupGame(string saveLocation, string destination, DateTime? lastChange, DateTime lastChangeSetting)
-        {
-            if (Directory.Exists(saveLocation))
+            foreach (Game g in games.Values)
             {
-                if (!Directory.Exists(destination))
-                    Directory.CreateDirectory(destination);
-
-
-                if (
-                    IsDirectoryEmpty(destination)
-                    ||
-                    !lastChange.HasValue
-                    ||
-                    lastChange != File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName)
-                    )
-                {
-                    while (DefSettings.SaveAmount <= Directory.GetFiles(destination).Length)
-                    {
-                        FileInfo deleteMe = GetOldestFileInDir(new DirectoryInfo(destination));
-                        deleteMe.Delete();
-                    }
-
-                    using (ZipFile zip = new ZipFile())
-                    {
-                        zip.AddDirectory(saveLocation);
-                        zip.Save(destination + DateTime.Now.ToString("yyyyMMddHHmmss") + ".zip");
-                    }
-                }
-
-                lastChangeSetting = File.GetLastWriteTime(GetLatestFileInDir(new DirectoryInfo(saveLocation)).FullName);
+                g.DispSaveStats();
             }
         }
 
@@ -214,24 +234,11 @@ namespace PraiseTheSave
 
             Console.Write(DefSettings.SaveLocation);
 
-            string ds1destination = DefSettings.SaveLocation + @"\ds1\";
-            string ds2destination = DefSettings.SaveLocation + @"\ds2\";
-            string ds3destination = DefSettings.SaveLocation + @"\ds3\";
-            string ds1Rdestination = DefSettings.SaveLocation + @"\ds1_remastered\";
-
-
-            if (!Directory.Exists(DefSettings.SaveLocation))
+            foreach (Game g in games.Values)
             {
-                Directory.CreateDirectory(DefSettings.SaveLocation);
+                g.Backup();
             }
 
-
-            BackupGame(DefSettings.ds1location, ds1destination, lastDS1Change, DefSettings.LastDS1Change);
-            BackupGame(DefSettings.ds2location, ds2destination, lastDS2Change, DefSettings.LastDS2Change);
-            BackupGame(DefSettings.ds3location, ds3destination, lastDS3Change, DefSettings.LastDS3Change);
-            BackupGame(DefSettings.ds1Rlocation, ds1Rdestination, lastDS1RChange, DefSettings.LastDS1RChange);
-
-            DefSettings.Save();
             RefreshInfo();
         }
 
@@ -289,22 +296,22 @@ namespace PraiseTheSave
 
         private void Ds1link_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(DefSettings.ds1location);
+            System.Diagnostics.Process.Start(games["DS1"].SavePath);
         }
 
         private void Ds2link_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(DefSettings.ds2location);
+            System.Diagnostics.Process.Start(games["DS2"].SavePath);
         }
 
         private void Ds3link_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(DefSettings.ds3location);
+            System.Diagnostics.Process.Start(games["DS3"].SavePath);
         }
 
         private void Ds1Rlink_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(DefSettings.ds1Rlocation);
+            System.Diagnostics.Process.Start(games["DSR"].SavePath);
         }
 
         private void BackupFolderLabel_Click(object sender, EventArgs e)
