@@ -8,35 +8,23 @@
     <Setting Name="SaveInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
-    <Setting Name="LastDS3Change" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LastDS2Change" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LastDS1Change" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SaveAmount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
-    </Setting>
-    <Setting Name="ds3location" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ds2location" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ds1location" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AutomaticBackups" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="LastDS1RChange" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="dirDS1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ds1</Value>
     </Setting>
-    <Setting Name="ds1Rlocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="dirDS2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ds3</Value>
+    </Setting>
+    <Setting Name="dirDS3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ds3</Value>
+    </Setting>
+    <Setting Name="dirDSR" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ds1_remastered</Value>
     </Setting>
   </Settings>
 </SettingsFile>

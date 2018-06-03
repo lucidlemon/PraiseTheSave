@@ -49,39 +49,6 @@ namespace PraiseTheSave.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastDS3Change {
-            get {
-                return ((global::System.DateTime)(this["LastDS3Change"]));
-            }
-            set {
-                this["LastDS3Change"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastDS2Change {
-            get {
-                return ((global::System.DateTime)(this["LastDS2Change"]));
-            }
-            set {
-                this["LastDS2Change"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastDS1Change {
-            get {
-                return ((global::System.DateTime)(this["LastDS1Change"]));
-            }
-            set {
-                this["LastDS1Change"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int SaveAmount {
             get {
@@ -89,42 +56,6 @@ namespace PraiseTheSave.Properties {
             }
             set {
                 this["SaveAmount"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ds3location {
-            get {
-                return ((string)(this["ds3location"]));
-            }
-            set {
-                this["ds3location"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ds2location {
-            get {
-                return ((string)(this["ds2location"]));
-            }
-            set {
-                this["ds2location"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ds1location {
-            get {
-                return ((string)(this["ds1location"]));
-            }
-            set {
-                this["ds1location"] = value;
             }
         }
         
@@ -142,24 +73,49 @@ namespace PraiseTheSave.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastDS1RChange {
+        [global::System.Configuration.DefaultSettingValueAttribute("ds1")]
+        public string dirDS1 {
             get {
-                return ((global::System.DateTime)(this["LastDS1RChange"]));
+                return ((string)(this["dirDS1"]));
             }
             set {
-                this["LastDS1RChange"] = value;
+                this["dirDS1"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ds1Rlocation {
+        [global::System.Configuration.DefaultSettingValueAttribute("ds3")]
+        public string dirDS2 {
             get {
-                return ((string)(this["ds1Rlocation"]));
+                return ((string)(this["dirDS2"]));
             }
             set {
-                this["ds1Rlocation"] = value;
+                this["dirDS2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ds3")]
+        public string dirDS3 {
+            get {
+                return ((string)(this["dirDS3"]));
+            }
+            set {
+                this["dirDS3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ds1_remastered")]
+        public string dirDSR {
+            get {
+                return ((string)(this["dirDSR"]));
+            }
+            set {
+                this["dirDSR"] = value;
             }
         }
     }
