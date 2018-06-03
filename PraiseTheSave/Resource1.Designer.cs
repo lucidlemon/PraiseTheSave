@@ -160,7 +160,7 @@ namespace PraiseTheSave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next backup: {0} (will be skipped if the file is unchanged)..
+        ///   Looks up a localized string similar to Next backup: {0} (will be skipped if files are unchanged)..
         /// </summary>
         internal static string msgNextBackup {
             get {

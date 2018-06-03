@@ -151,7 +151,7 @@
     <value>Last change: {0}.</value>
   </data>
   <data name="msgNextBackup" xml:space="preserve">
-    <value>Next backup: {0} (will be skipped if the file is unchanged).</value>
+    <value>Next backup: {0} (will be skipped if files are unchanged).</value>
   </data>
   <data name="msgNoSouls" xml:space="preserve">
     <value>Git Gud u fucking casul. No Souls for u.</value>
