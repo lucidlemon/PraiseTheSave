@@ -21,6 +21,6 @@ It will also only create backups if the original save file changed, so you wont 
 
 [Download it here](https://github.com/lucidlemon/PraiseTheSave/releases)
 
-![Screenshot of the app](http://i.imgur.com/1bClpsJ.png)
+![Screenshot of the app](https://i.imgur.com/EauDaZt.png)
 
 If you guys have any feedback, go ahead!
