@@ -82,19 +82,37 @@ namespace PraiseTheSave.Properties {
                 this["dirDS1"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ds3")]
-        public string dirDS2 {
-            get {
+        [global::System.Configuration.DefaultSettingValueAttribute("ds1_remastered")]
+        public string dirDSR
+        {
+            get
+            {
+                return ((string)(this["dirDSR"]));
+            }
+            set
+            {
+                this["dirDSR"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ds2")]
+        public string dirDS2
+        {
+            get
+            {
                 return ((string)(this["dirDS2"]));
             }
-            set {
+            set
+            {
                 this["dirDS2"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("ds3")]
@@ -107,16 +125,8 @@ namespace PraiseTheSave.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ds1_remastered")]
-        public string dirDSR {
-            get {
-                return ((string)(this["dirDSR"]));
-            }
-            set {
-                this["dirDSR"] = value;
-            }
-        }
+        
+        
+        
     }
 }

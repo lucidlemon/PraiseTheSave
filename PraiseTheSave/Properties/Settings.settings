@@ -17,14 +17,14 @@
     <Setting Name="dirDS1" Type="System.String" Scope="User">
       <Value Profile="(Default)">ds1</Value>
     </Setting>
-    <Setting Name="dirDS2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ds3</Value>
-    </Setting>
     <Setting Name="dirDS3" Type="System.String" Scope="User">
       <Value Profile="(Default)">ds3</Value>
     </Setting>
     <Setting Name="dirDSR" Type="System.String" Scope="User">
       <Value Profile="(Default)">ds1_remastered</Value>
+    </Setting>
+    <Setting Name="dirDS2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ds2</Value>
     </Setting>
   </Settings>
 </SettingsFile>

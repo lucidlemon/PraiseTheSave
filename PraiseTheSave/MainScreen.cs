@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Ionic.Zip;
+using AutoUpdaterDotNET;
 
 namespace PraiseTheSave
 {
-    public partial class Form1 : Form
+    public partial class MainScreen : Form
     {
         private class Game
         {
@@ -101,7 +102,7 @@ namespace PraiseTheSave
 
         private readonly Dictionary<string, Game> games;
 
-        public Form1()
+        public MainScreen()
         {
             backupTimer = new Timer();
             backupTimer.Tick += new EventHandler(DoBackup);
@@ -190,9 +191,20 @@ namespace PraiseTheSave
                 (current, next) => next.LastWriteTime < current.LastWriteTime ? next : current);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainScreen_Load(object sender, EventArgs e)
         {
-            
+            AutoUpdater.Start("https://lucidlemon.github.io/PraiseTheSave/AutoUpdater.xml");
+
+            System.Timers.Timer timer = new System.Timers.Timer
+            {
+                Interval = 2 * 60 * 1000,
+                SynchronizingObject = this
+            };
+            timer.Elapsed += delegate
+            {
+                AutoUpdater.Start("https://lucidlemon.github.io/PraiseTheSave/AutoUpdater.xml");
+            };
+            timer.Start();
         }
 
         public void RefreshInfo()

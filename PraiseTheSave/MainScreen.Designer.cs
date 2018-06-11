@@ -1,6 +1,6 @@
 ﻿namespace PraiseTheSave
 {
-    partial class Form1
+    partial class MainScreen
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
             this.label1 = new System.Windows.Forms.Label();
             this.ds3link = new System.Windows.Forms.Label();
             this.ds3_found_folder = new System.Windows.Forms.Label();
@@ -372,7 +372,7 @@
             this.ds1Rlink.Text = "Dark Souls I Remastered";
             this.ds1Rlink.Click += new System.EventHandler(this.Ds1Rlink_Click);
             // 
-            // Form1
+            // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -408,9 +408,9 @@
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainScreen";
             this.Text = "Praise The Save";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.saveAmountInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.saveIntervalInput)).EndInit();
