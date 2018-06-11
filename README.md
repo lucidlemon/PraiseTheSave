@@ -1,5 +1,5 @@
 # PraiseTheSave
-Simple Tool to Backup your Dark Souls Games Savegames (I, II and III)
+Simple Tool to Backup your Dark Souls Games Savegames (I, I Remastered, II and III)
 
 Hey there,
 
