@@ -118,27 +118,31 @@ namespace PraiseTheSave
 
             InitializeComponent();
 
+            string DS1_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DarkSouls";
+            string DSR_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DARK SOULS REMASTERED";
+
+            if(!Directory.Exists(DSR_Path))
+            {
+                DSR_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\FromSoftware\DARK SOULS REMASTERED";
+            }
+
             games = new Dictionary<string, Game>
             {
                 {
                     "DS1",
-                    new Game(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DarkSouls",
-                DefSettings.dirDS1, Resource1.initialsDs1, ds1_found_folder, ds1_last_change_label)
+                    new Game(DS1_Path, DefSettings.dirDS1, Resource1.initialsDs1, ds1_found_folder, ds1_last_change_label)
                 },
                 {
                     "DS2",
-                    new Game(@"%AppData%\DarkSoulsII", DefSettings.dirDS2, Resource1.initialsDs2,
-                ds2_found_folder, ds2_last_change_label)
+                    new Game(@"%AppData%\DarkSoulsII", DefSettings.dirDS2, Resource1.initialsDs2, ds2_found_folder, ds2_last_change_label)
                 },
                 {
                     "DS3",
-                    new Game(@"%AppData%\DarkSoulsIII", DefSettings.dirDS3, Resource1.initialsDs3,
-                ds3_found_folder, ds3_last_change_label)
+                    new Game(@"%AppData%\DarkSoulsIII", DefSettings.dirDS3, Resource1.initialsDs3, ds3_found_folder, ds3_last_change_label)
                 },
                 {
                     "DSR",
-                    new Game(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\NBGI\DARK SOULS REMASTERED",
-                DefSettings.dirDSR, Resource1.initialsDsr, ds1R_found_folder, ds1R_last_change_label)
+                    new Game(DSR_Path, DefSettings.dirDSR, Resource1.initialsDsr, ds1R_found_folder, ds1R_last_change_label)
                 }
             };
 
@@ -220,7 +224,7 @@ namespace PraiseTheSave
             {
                 backupFolderSizeLabel.Text = Resource1.msgBackupFolderDNE;
             }
-            
+
 
             saveAmountInput.Value = DefSettings.SaveAmount;
             saveIntervalInput.Value = DefSettings.SaveInterval;
@@ -270,13 +274,13 @@ namespace PraiseTheSave
 
         private void SaveAmountInput_ValueChanged(object sender, EventArgs e)
         {
-            DefSettings.SaveAmount = (int) saveAmountInput.Value;
+            DefSettings.SaveAmount = (int)saveAmountInput.Value;
             DefSettings.Save();
         }
 
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            DefSettings.SaveInterval = (int) saveIntervalInput.Value;
+            DefSettings.SaveInterval = (int)saveIntervalInput.Value;
             DefSettings.Save();
 
             backupTimer.Interval = (DefSettings.SaveInterval * 60 * 1000);
